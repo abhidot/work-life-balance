@@ -56,7 +56,7 @@ class ScheduleEvaluatorTest {
 
     @Test
     fun uses_custom_times_when_overridden() {
-        val now = ZonedDateTime.of(LocalDate.of(2025, 6, 4), LocalTime.of(11, 0), zone)
+        val now = ZonedDateTime.of(LocalDate.of(2025, 6, 4), LocalTime.of(10, 15), zone)
         val overrides = EntryScheduleOverrides(
             timesMode = OverrideMode.CUSTOM,
             customStartTime = LocalTime.of(10, 0),
