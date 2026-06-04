@@ -1,0 +1,2 @@
+# Copy to local.properties (gitignored) for local builds:
+# sdk.dir=/Users/YOU/Library/Android/sdk

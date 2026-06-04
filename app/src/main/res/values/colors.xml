@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sage">#FF6B8F71</color>
+    <color name="sage_dark">#FF4F6F55</color>
+    <color name="cream">#FFF7F3EC</color>
+    <color name="sand">#FFE8DFD0</color>
+    <color name="ink">#FF2F3430</color>
+    <color name="muted">#FF6E756F</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
