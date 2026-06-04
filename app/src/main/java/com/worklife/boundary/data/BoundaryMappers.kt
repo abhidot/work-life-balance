@@ -42,6 +42,7 @@ object BoundaryMappers {
         activeDaysMask = DayOfWeekBitmask.encode(DayOfWeekBitmask.weekdays),
         startMinutes = localTimeToMinutes(LocalTime.of(9, 0)),
         endMinutes = localTimeToMinutes(LocalTime.of(18, 0)),
+        sendBlockedCallsToVoicemail = true,
     )
 
     fun localTimeToMinutes(time: LocalTime): Int = time.hour * 60 + time.minute

@@ -17,7 +17,7 @@ import com.worklife.boundary.data.local.entity.BlocklistNumberEntity
         BlocklistNumberEntity::class,
         BlockEventEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class BoundaryDatabase : RoomDatabase() {

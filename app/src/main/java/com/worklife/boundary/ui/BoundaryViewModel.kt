@@ -61,6 +61,10 @@ class BoundaryViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch { repository.setMasterBlocking(enabled) }
     }
 
+    fun setSendBlockedCallsToVoicemail(enabled: Boolean) {
+        viewModelScope.launch { repository.setSendBlockedCallsToVoicemail(enabled) }
+    }
+
     fun completeOnboarding(days: Set<DayOfWeek>, start: LocalTime, end: LocalTime) {
         viewModelScope.launch { repository.completeOnboarding(days, start, end) }
     }

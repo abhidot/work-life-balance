@@ -13,6 +13,8 @@ data class AppSettingsEntity(
     val activeDaysMask: Int,
     val startMinutes: Int,
     val endMinutes: Int,
+    /** When true, blocked calls use reject semantics so carriers can route to voicemail. */
+    val sendBlockedCallsToVoicemail: Boolean = true,
 )
 
 @Entity(tableName = "blocklist_entries")

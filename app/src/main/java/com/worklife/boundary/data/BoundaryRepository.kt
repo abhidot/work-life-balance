@@ -2,6 +2,8 @@ package com.worklife.boundary.data
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.worklife.boundary.data.local.BoundaryDatabase
 import com.worklife.boundary.data.local.DayOfWeekBitmask
 import com.worklife.boundary.data.local.entity.AppSettingsEntity
@@ -53,6 +55,11 @@ class BoundaryRepository(
     suspend fun setMasterBlocking(enabled: Boolean) {
         val current = getSettings()
         settingsDao.upsert(current.copy(masterBlockingEnabled = enabled))
+    }
+
+    suspend fun setSendBlockedCallsToVoicemail(enabled: Boolean) {
+        val current = getSettings()
+        settingsDao.upsert(current.copy(sendBlockedCallsToVoicemail = enabled))
     }
 
     suspend fun completeOnboarding(
@@ -170,12 +177,23 @@ class BoundaryRepository(
         BoundaryMappers.toGlobalSchedule(getSettings())
 
     companion object {
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE app_settings ADD COLUMN sendBlockedCallsToVoicemail INTEGER NOT NULL DEFAULT 1",
+                )
+            }
+        }
+
         fun from(context: Context): BoundaryRepository {
             val db = Room.databaseBuilder(
                 context.applicationContext,
                 BoundaryDatabase::class.java,
                 "boundary.db",
-            ).fallbackToDestructiveMigration().build()
+            )
+                .addMigrations(MIGRATION_1_2)
+                .fallbackToDestructiveMigration()
+                .build()
             return BoundaryRepository(db)
         }
     }

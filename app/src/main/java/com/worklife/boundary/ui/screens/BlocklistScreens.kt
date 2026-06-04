@@ -40,6 +40,7 @@ import com.worklife.boundary.data.local.DayOfWeekBitmask
 import com.worklife.boundary.data.local.entity.BlocklistEntryEntity
 import com.worklife.boundary.domain.schedule.EntryScheduleOverrides
 import com.worklife.boundary.domain.schedule.OverrideMode
+import com.worklife.boundary.data.local.entity.AppSettingsEntity
 import com.worklife.boundary.ui.BoundaryViewModel
 import com.worklife.boundary.ui.components.BoundaryCard
 import com.worklife.boundary.ui.components.DayOfWeekSelector
@@ -255,7 +256,13 @@ fun EntryDetailScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(onBack: () -> Unit) {
+fun SettingsScreen(
+    settings: AppSettingsEntity?,
+    viewModel: BoundaryViewModel,
+    onBack: () -> Unit,
+) {
+    val sendToVoicemail = settings?.sendBlockedCallsToVoicemail != false
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -264,14 +271,40 @@ fun SettingsScreen(onBack: () -> Unit) {
             )
         },
     ) { padding ->
-        Column(Modifier.padding(padding).padding(24.dp)) {
+        Column(
+            Modifier.padding(padding).padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
             BoundaryCard {
                 SectionHeader(
-                    "Block method",
-                    "Off-hours blocklist calls are dropped before they connect. Callers typically hear unavailable or busy (varies by carrier). We do not simulate you pressing Decline.",
+                    "Blocked calls",
+                    "Calls never ring on your phone. What the caller hears depends on your carrier.",
                 )
                 Spacer(Modifier.height(8.dp))
-                Text("SMS blocking is not available in v1. Messages may still arrive in your inbox.")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text("Send to voicemail", style = androidx.compose.material3.MaterialTheme.typography.titleLarge)
+                        Text(
+                            if (sendToVoicemail) {
+                                "Simulates a decline so voicemail can pick up (if you have it)."
+                            } else {
+                                "Drop without decline — often sounds unavailable or busy."
+                            },
+                            color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    Switch(
+                        checked = sendToVoicemail,
+                        onCheckedChange = viewModel::setSendBlockedCallsToVoicemail,
+                    )
+                }
+            }
+            BoundaryCard {
+                SectionHeader("SMS", "SMS blocking is not available in v1. Messages may still arrive in your inbox.")
             }
         }
     }

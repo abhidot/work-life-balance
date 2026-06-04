@@ -83,7 +83,11 @@ fun BoundaryApp(viewModel: BoundaryViewModel = viewModel()) {
             )
         }
         composable(Routes.SETTINGS) {
-            SettingsScreen(onBack = { navController.popBackStack() })
+            SettingsScreen(
+                settings = settings,
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+            )
         }
     }
 }
