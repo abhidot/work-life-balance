@@ -135,8 +135,8 @@ fun OnboardingScreen(
                         },
                     )
                     Spacer(Modifier.height(12.dp))
-                    TimeStepper("Start", startMinutes) { startMinutes = it }
-                    TimeStepper("End", endMinutes) { endMinutes = it }
+                    TimeStepper("Start", startMinutes) { value -> startMinutes = value }
+                    TimeStepper("End", endMinutes) { value -> endMinutes = value }
                     Spacer(Modifier.height(12.dp))
                     Button(
                         onClick = {
@@ -147,24 +147,6 @@ fun OnboardingScreen(
                     ) { Text("Start protecting") }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun TimeStepper(label: String, minutes: Int, onChange: (Int) -> Unit) {
-    val hour = minutes / 60
-    val minute = minutes % 60
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(label)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = { onChange(((hour + 23) % 24) * 60 + minute) }) { Text("−") }
-            Text(String.format("%02d:%02d", hour, minute), style = MaterialTheme.typography.titleLarge)
-            OutlinedButton(onClick = { onChange(((hour + 1) % 24) * 60 + minute) }) { Text("+") }
         }
     }
 }
