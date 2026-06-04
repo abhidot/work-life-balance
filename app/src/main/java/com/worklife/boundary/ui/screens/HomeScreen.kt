@@ -43,7 +43,7 @@ fun HomeScreen(
     }
     val statusSubtitle = when {
         !screeningOk -> "Set Boundary as your call screening app."
-        masterOn -> "${uiState.blocklistCount} on blocklist · outside allowed hours, listed contacts are rejected."
+        masterOn -> "${uiState.blocklistCount} on blocklist · off-hours callers cannot reach you"
         else -> "All calls will connect until you turn blocking on."
     }
 

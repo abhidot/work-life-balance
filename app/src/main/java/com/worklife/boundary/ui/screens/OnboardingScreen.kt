@@ -79,7 +79,7 @@ fun OnboardingScreen(
         when (step) {
             0 -> {
                 BoundaryCard {
-                    SectionHeader("Welcome", "We reject calls from your blocklist outside allowed hours — before they connect.")
+                    SectionHeader("Welcome", "Blocklist callers cannot reach you outside allowed hours — the call never connects.")
                     Spacer(Modifier.height(12.dp))
                     Button(
                         onClick = {

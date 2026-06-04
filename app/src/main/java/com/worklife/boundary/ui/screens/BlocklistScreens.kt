@@ -266,7 +266,10 @@ fun SettingsScreen(onBack: () -> Unit) {
     ) { padding ->
         Column(Modifier.padding(padding).padding(24.dp)) {
             BoundaryCard {
-                SectionHeader("Block method", "Voice calls are rejected via Call Screening when rules match.")
+                SectionHeader(
+                    "Block method",
+                    "Off-hours blocklist calls are dropped before they connect. Callers typically hear unavailable or busy (varies by carrier). We do not simulate you pressing Decline.",
+                )
                 Spacer(Modifier.height(8.dp))
                 Text("SMS blocking is not available in v1. Messages may still arrive in your inbox.")
             }

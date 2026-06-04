@@ -4,7 +4,7 @@ Android app that **rejects incoming calls** from your blocklist when they are ou
 
 ## Features
 
-- Call Screening: hard reject matched blocklist callers off-hours
+- Call Screening: block matched blocklist callers off-hours (unreachable-style drop, not a manual decline)
 - Global work schedule (days + time window)
 - Per-contact layered overrides (days and/or times)
 - Blocklist via contacts picker or manual number
@@ -24,7 +24,9 @@ Android app that **rejects incoming calls** from your blocklist when they are ou
 ./gradlew assembleDebug
 ```
 
-Debug APK: `app/build/outputs/apk/debug/app-debug.apk`
+Release APK (CI): `app/build/outputs/apk/release/app-release.apk` — minified, ~smaller than debug.
+
+Local: `./gradlew assembleRelease`
 
 ## CI
 

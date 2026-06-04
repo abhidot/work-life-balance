@@ -39,7 +39,7 @@ class BoundaryCallScreeningService : CallScreeningService() {
                         entryId = decision.matchedEntry?.id,
                         displayName = decision.matchedEntry?.displayName,
                     )
-                    reject()
+                    blockAsUnreachable()
                 } else {
                     allow()
                 }
@@ -53,11 +53,16 @@ class BoundaryCallScreeningService : CallScreeningService() {
     private fun allow(): CallScreeningService.CallResponse =
         CallScreeningService.CallResponse.Builder().build()
 
-    private fun reject(): CallScreeningService.CallResponse =
+    /**
+     * Block without simulating a manual user reject.
+     * disallowCall stops the call from connecting locally; rejectCall=false avoids
+     * "declined" semantics where possible (carrier may still play busy/unavailable).
+     */
+    private fun blockAsUnreachable(): CallScreeningService.CallResponse =
         CallScreeningService.CallResponse.Builder()
             .setDisallowCall(true)
-            .setRejectCall(true)
-            .setSkipCallLog(false)
+            .setRejectCall(false)
+            .setSkipCallLog(true)
             .setSkipNotification(true)
             .build()
 }

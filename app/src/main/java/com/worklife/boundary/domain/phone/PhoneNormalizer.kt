@@ -1,20 +1,25 @@
 package com.worklife.boundary.domain.phone
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil
-
+/**
+ * Lightweight E.164-style normalizer (no libphonenumber metadata — saves several MB in APK).
+ */
 class PhoneNormalizer(
-    private val defaultRegion: String,
-    private val util: PhoneNumberUtil = PhoneNumberUtil.getInstance(),
+    private val defaultRegion: String = "US",
 ) {
     fun normalize(raw: String): String? {
         val trimmed = raw.trim()
         if (trimmed.isEmpty()) return null
-        return try {
-            val parsed = util.parse(trimmed, defaultRegion)
-            if (!util.isValidNumber(parsed)) return null
-            util.format(parsed, PhoneNumberUtil.PhoneNumberFormat.E164)
-        } catch (_: Exception) {
-            null
+
+        val digits = trimmed.filter { it.isDigit() }
+        if (digits.length < 7) return null
+
+        val e164 = when {
+            trimmed.startsWith("+") -> "+$digits"
+            defaultRegion == "US" && digits.length == 10 -> "+1$digits"
+            defaultRegion == "US" && digits.length == 11 && digits.startsWith("1") -> "+$digits"
+            digits.length >= 10 -> "+$digits"
+            else -> return null
         }
+        return e164
     }
 }
